@@ -1,0 +1,119 @@
+一行命令搞定图像质量评价
+原创： CV君 我爱计算机视觉 12月1日
+点击我爱计算机视觉标星，更快获取CVML新技术
+
+
+
+在52CV交流群里，经常有人问到图像质量评价的问题。比如对监控摄像头拍摄的多幅图像，挑选一幅图像显示给用户，或者选择一幅图丢给识别模型，又或者在互联网应用里，对于用户上传的多幅图像，选择一幅作为封面。一般要求图像清晰、质量较好，有没有简单的方法实现图像质量评价呢？
+
+
+
+今天跟大家推荐一个工具，来自德国商品比价服务商idealo开源的图像质量评价工具，仅需要一行命令就可以实现。
+
+
+
+开源地址：
+
+https://github.com/idealo/image-quality-assessment
+
+
+
+安装非常简答：
+
+
+
+
+
+
+
+对一幅图像进行质量评价：
+
+./predict  \
+--docker-image nima-cpu \
+--base-model-name MobileNet \
+--weights-file $(pwd)/models/MobileNet/weights_mobilenet_technical_0.11.hdf5 \
+--image-source $(pwd)/src/tests/test_images/42039.jpg
+
+
+对一个文件夹下的所有图像进行质量评价：
+
+
+
+./predict  \
+--docker-image nima-cpu \
+--base-model-name MobileNet \
+--weights-file $(pwd)/models/MobileNet/weights_mobilenet_technical_0.11.hdf5 \
+--image-source $(pwd)/src/tests/test_images
+
+
+这个工具还是很靠谱的，其参考的是Google 2017年研究论文 NIMA: Neural Image Assessment" （https://arxiv.org/pdf/1709.05424.pdf），另外这家公司本身也在自己的互联网服务中使用该工具，用于用户上传的酒店图像的挑选和推荐。
+
+
+
+实际上该工具有美学评价（侧重于图像好看不好看）和技术评价（侧重于图像质量好不好）两方面。
+
+
+
+
+
+
+
+
+
+
+
+官方已经给出了这两个的预训练模型。
+
+
+
+当然，并不是每个人都是做这两个方面，比如我刚才说的监控场景的图像质量评价，那你就需要自己训练了。
+
+
+
+作者们也提供了简单易用的训练接口。
+
+
+
+标注好样本，配置好环境后，训练也只需要一行命令：
+
+./train-local \
+--config-file $(pwd)/models/MobileNet/config_technical_cpu.json \
+--samples-file $(pwd)/data/TID2013/tid_labels_train.json \
+--image-dir /path/to/image/dir/local
+
+
+总之，这是一个在实际项目和研究中，都值得关注的图像质量评价工具。
+
+
+
+再发一遍项目地址：
+
+https://github.com/idealo/image-quality-assessment
+
+
+
+
+
+图像增强与质量评价交流群
+
+
+
+关注最新最前沿的图像质量评价、图像增强技术，扫码添加CV君拉你入群，（如已为CV君其他账号好友请直接私信）
+
+（请务必注明：质量）
+
+
+
+喜欢在QQ交流的童鞋，可以加52CV官方QQ群：805388940。
+
+（不会时时在线，如果没能及时通过验证还请见谅）
+
+
+
+
+长按关注我爱计算机视觉
+
+文章已于2019-12-01修改
+
+微信扫一扫
+关注该公众号
